@@ -1,0 +1,14 @@
+<html>
+  <head>
+    <title>Nautilus</title>
+    <script type="text/javascript">
+      function anim() {
+        document.getElementById("frame").src = 'frame?c=' +
+          new Date().getTime();
+      }
+    </script>
+  </head>
+  <body>
+    <img id="frame" onload="anim()" src="frame">
+  </body>
+</html>
