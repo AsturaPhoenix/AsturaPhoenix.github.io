@@ -5,10 +5,14 @@
       function anim() {
         document.getElementById("frame").src = 'http://res.cloudinary.com/lmuapu9iq/image/upload/v' +
           parseInt(new Date().getTime() / 1000) + '/nautilus.jpg';
+        setTimeout(anim, 300);
       }
     </script>
   </head>
-  <body style="text-align: center; background-color: gray">
-    <img id="frame" height="100%" onload="setTimeout(anim, 300)" src="http://res.cloudinary.com/lmuapu9iq/image/upload/nautilus.jpg">
+  <body style="text-align: center; background-color: #444">
+    <img id="frame" height="100%" src="">
+    <script type="text/javascript">
+      anim();
+    </script>
   </body>
 </html>
