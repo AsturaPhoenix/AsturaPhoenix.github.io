@@ -3,14 +3,14 @@
     <title>Nautilus</title>
     <script type="text/javascript">
       function anim() {
-        document.getElementById("frame").src = 'http://res.cloudinary.com/lmuapu9iq/image/upload/v' +
-          parseInt(new Date().getTime() / 1000) + '/nautilus.jpg';
+        document.getElementById("frame").src = 'https://s3-us-west-1.amazonaws.com/simplecast/nautilus.jpg#' +
+          parseInt(new Date().getTime());
         setTimeout(anim, 300);
       }
     </script>
   </head>
   <body style="text-align: center; background-color: #444">
-    <img id="frame" height="100%" src="">
+    <img id="frame" height="100%" src="https://s3-us-west-1.amazonaws.com/simplecast/nautilus.jpg">
     <script type="text/javascript">
       anim();
     </script>
