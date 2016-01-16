@@ -2,12 +2,14 @@
   <head>
     <title>Nautilus</title>
     <script type="text/javascript">
+      var lastReload = new Date();
       var lastAnim = new Date();
       var lastLoaded = new Date();
 
       function debugInfo() {
         var debug = document.getElementById("debug");
-        debug.innerText = "Last frame: " + lastAnim.toLocaleTimeString() +
+        debug.innerText = "Last reload: " + lastReload.toLocaleTimeString() +
+          "\nLast frame: " + lastAnim.toLocaleTimeString() +
           "\nLast render: " + lastLoaded.toLocaleTimeString();
       }
 
@@ -21,7 +23,12 @@
           cb;
 
         debugInfo();
-        setTimeout(anim, 500);
+
+        if (lastAnim.getTime() - lastLoaded.getTime() > 5000) {
+          location.reload();
+        } else {
+          setTimeout(anim, 500);
+        }
       }
 
       function imgLoaded() {
