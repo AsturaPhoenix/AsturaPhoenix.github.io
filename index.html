@@ -12,9 +12,13 @@
       }
 
       function anim() {
-        var date = new Date();
+        lastAnim = new Date();
+        var cb = lastAnim.getTime();
+
         document.getElementById("frame").src = 'https://s3-us-west-1.amazonaws.com/simplecast/nautilus.jpg?v=' +
-          parseInt(date.getTime());
+          cb;
+        document.getElementById("frame").src = 'https://s3-us-west-1.amazonaws.com/simplecast/previous.jpg?v=' +
+          cb;
 
         debugInfo();
         setTimeout(anim, 500);
@@ -27,11 +31,13 @@
     </script>
   </head>
   <body style="text-align: center; background-color: #222; margin: 0">
-    <div id="debug" style="position: absolute; color: white; font-family: monospace">
+    <div id="debug" style="position: absolute; color: white; text-align: left; font-family: monospace">
     </div>
     <img id="frame" height="100%"
          src="https://s3-us-west-1.amazonaws.com/simplecast/nautilus.jpg"
-         onload="imgLoaded">
+         onload="imgLoaded()">
+    <img id="prev" height="100%"
+         src="https://s3-us-west-1.amazonaws.com/simplecast/previous.jpg">
     <script type="text/javascript">
       anim();
     </script>
