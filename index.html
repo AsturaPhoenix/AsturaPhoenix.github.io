@@ -17,6 +17,10 @@
       var doPrev = 0;
 
       function anim() {
+	if (lastAnim.getTime() - lastLoaded.getTime() > 20000) {
+          location.reload();
+        }
+
         lastAnim = new Date();
         var cb = lastAnim.getTime();
 
@@ -34,11 +38,7 @@
         debugInfo();
 
         if (!isStopped) {
-          if (lastAnim.getTime() - lastLoaded.getTime() > 20000) {
-            location.reload();
-          } else {
-            setTimeout(anim, 1000);
-          }
+          setTimeout(anim, 1000);
         }
       }
 
@@ -47,8 +47,16 @@
         debugInfo();
       }
 
-      function stop() {
-        isStopped = true;
+      function toggle() {
+        var bn = document.getElementById("toggle");
+	if (isStopped) {
+          bn.innerText = "Stop";
+          isStopped = false;
+          anim();
+        } else {
+          bn.innerText = "Resume";
+          isStopped = true;
+        }
       }
     </script>
   </head>
@@ -57,7 +65,7 @@
       Version: 0.1
       <div id="debug">
       </div>
-      <div style="color: #555; margin: 4px; padding: 4px" onclick="stop()">
+      <div id="toggle" style="background-color: #555; color: black; margin: 4px; padding: 4px; text-align: center" onclick="stop()">
         Stop
       </div>
     </div>
