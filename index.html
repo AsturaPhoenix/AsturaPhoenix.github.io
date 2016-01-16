@@ -49,7 +49,7 @@
 
       function toggle() {
         var bn = document.getElementById("toggle");
-	if (isStopped) {
+        if (isStopped) {
           bn.innerText = "Stop";
           isStopped = false;
           anim();
@@ -62,10 +62,10 @@
   </head>
   <body style="text-align: center; background-color: #222; margin: 0">
     <div style="position: absolute; color: white; text-align: left; font-family: monospace">
-      Version: 0.1
+      Version: 0.2
       <div id="debug">
       </div>
-      <div id="toggle" style="background-color: #555; color: black; margin: 4px; padding: 4px; text-align: center" onclick="stop()">
+      <div id="toggle" style="background-color: #555; margin: 4px; padding: 4px; text-align: center; cursor: pointer" onclick="toggle()">
         Stop
       </div>
     </div>
