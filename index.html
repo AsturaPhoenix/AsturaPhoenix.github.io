@@ -2,6 +2,7 @@
   <head>
     <title>Nautilus</title>
     <script type="text/javascript">
+      var isStopped = false;
       var lastReload = new Date();
       var lastAnim = new Date();
       var lastLoaded = new Date();
@@ -32,10 +33,12 @@
 
         debugInfo();
 
-        if (lastAnim.getTime() - lastLoaded.getTime() > 20000) {
-          location.reload();
-        } else {
-          setTimeout(anim, 1000);
+        if (!isStopped) {
+          if (lastAnim.getTime() - lastLoaded.getTime() > 20000) {
+            location.reload();
+          } else {
+            setTimeout(anim, 1000);
+          }
         }
       }
 
@@ -43,10 +46,20 @@
         lastLoaded = new Date();
         debugInfo();
       }
+
+      function stop() {
+        isStopped = true;
+      }
     </script>
   </head>
   <body style="text-align: center; background-color: #222; margin: 0">
-    <div id="debug" style="position: absolute; color: white; text-align: left; font-family: monospace">
+    <div style="position: absolute; color: white; text-align: left; font-family: monospace">
+      Version: 0.1
+      <div id="debug">
+      </div>
+      <div style="color: #555; margin: 4px; padding: 4px" onclick="stop()">
+        Stop
+      </div>
     </div>
     <img id="frame" height="100%"
          src="https://s3-us-west-1.amazonaws.com/simplecast/nautilus.jpg"
