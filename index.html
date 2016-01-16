@@ -2,15 +2,36 @@
   <head>
     <title>Nautilus</title>
     <script type="text/javascript">
+      var lastAnim = new Date();
+      var lastLoaded = new Date();
+
+      function debugInfo() {
+        var debug = document.getElementById("debug");
+        debug.innerText = "Last frame: " + lastAnim.toLocaleTimeString() +
+          "\nLast render: " + lastLoaded.toLocaleTimeString();
+      }
+
       function anim() {
+        var date = new Date();
         document.getElementById("frame").src = 'https://s3-us-west-1.amazonaws.com/simplecast/nautilus.jpg?v=' +
-          parseInt(new Date().getTime());
+          parseInt(date.getTime());
+
+        debugInfo();
         setTimeout(anim, 500);
+      }
+
+      function imgLoaded() {
+        lastLoaded = new Date();
+        debugInfo();
       }
     </script>
   </head>
-  <body style="text-align: center; background-color: #222">
-    <img id="frame" height="100%" src="https://s3-us-west-1.amazonaws.com/simplecast/nautilus.jpg">
+  <body style="text-align: center; background-color: #222; margin: 0">
+    <div id="debug" style="position: absolute; color: white; font-family: monospace">
+    </div>
+    <img id="frame" height="100%"
+         src="https://s3-us-west-1.amazonaws.com/simplecast/nautilus.jpg"
+         onload="imgLoaded">
     <script type="text/javascript">
       anim();
     </script>
