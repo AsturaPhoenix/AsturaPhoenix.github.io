@@ -3,6 +3,7 @@
     <title>Nautilus</title>
     <script src="https://sdk.amazonaws.com/js/aws-sdk-2.2.30.min.js"></script>
     <script type="text/javascript">
+      var lastError;
       try {
         AWS.config.update({
           accessKeyId: "AKIAILL2PDRJCSEVOZ6A",
@@ -12,7 +13,7 @@
           TopicArn: "arn:aws:sns:us-west-2:014890975119:sce"
         }});
       } catch (e) {
-        alert(e);
+        lastError = e;
       }
 
       var isStopped = false;
@@ -38,10 +39,15 @@
           frameDisp = '<span style="color: ' + dispColor + '\">' + frameDisp + "</span>";
         }
         
-        debug.innerHTML = "Last reload: " + lastReload.toLocaleTimeString() +
+        var debugInfo = "Last reload: " + lastReload.toLocaleTimeString() +
           "<br>Last tick: " + lastProc.toLocaleTimeString() +
           "<br>Last frame: " + frameDisp +
           "<br>Last screen: " + lastScreen.toLocaleTimeString();
+        if (lastError) {
+          debugInfo += "<br>" + lastError;
+        }
+          
+        debug.innerHTML = debugInfo;
       }
 
       function queue(f) {
@@ -152,7 +158,7 @@
   </head>
   <body style="text-align: center; background-color: #222; margin: 0">
     <div style="position: absolute; color: white; text-align: left; font-family: monospace">
-      Version: 0.9
+      Version: 0.10
       <div id="debug">
       </div>
       <div id="toggle"
