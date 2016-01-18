@@ -23,10 +23,10 @@
         var debug = document.getElementById("debug");
         var staleness = lastProc.getTime() - lastFrame.getTime();
         var dispColor;
-        if (staleness > 7500) {
-          dispColor = "yellow";
-        } else if (staleness > 15000 {
-          dispColor = "red";
+        if (staleness > 15000) {
+          dispColor = "#f66";
+        } else if (staleness > 7500) {
+          dispColor = "#dd4";
         }
         
         var frameDisp = lastFrame.toLocaleTimeString();
@@ -35,9 +35,9 @@
         }
         
         debug.innerHTML = "Last reload: " + lastReload.toLocaleTimeString() +
-          "\nLast tick: " + lastProc.toLocaleTimeString() +
-          "\nLast frame: " + frameDisp +
-          "\nLast screen: " + lastScreen.toLocaleTimeString();
+          "<br>Last tick: " + lastProc.toLocaleTimeString() +
+          "<br>Last frame: " + frameDisp +
+          "<br>Last screen: " + lastScreen.toLocaleTimeString();
       }
 
       function queue(f) {
@@ -53,11 +53,11 @@
 
         lastProc = new Date();
 
-        if (lastProc.getTime() - lastFrameQuery.getTime() > 10000) {
+        if (lastProc.getTime() - lastFrameQuery.getTime() > 7500) {
           frame();
         }
 
-        if (lastProc.getTime() - lastScreenQuery.getTime() > 10000) {
+        if (lastProc.getTime() - lastScreenQuery.getTime() > 7500) {
           screen();
         }
 
@@ -99,20 +99,38 @@
         queue(frame);
       }
       
-      function send(type, cpx, cpy) {
-        var img = document.getElementById("frame");
-        var nx = cpx / img.width,
-            ny = cpy / img.height;
-        var msg = [type, nx, ny].join("|");
+      function send(msg) {
         sns.publish({Message: msg}, function (err, data) {
           if (err) {
             console.error(err);
           }
         });
       }
+      
+      function sendMouse(type, cpx, cpy) {
+        var img = document.getElementById("frame");
+        var nx = cpx / img.width,
+            ny = cpy / img.height;
+        send(type + "|" + nx + "," + ny);
+      }
+      
+      function sendTouch(type, touches) {
+        var img = document.getElementById("frame");
+        var ts = [type];
+        for (var i = 0; i < touches.length; i++) {
+          var nx = (touches[i].pageX - img.x) / img.width,
+              ny = (touches[i].pageY - img.y) / img.height;
+          ts.push(nx + "," + ny);
+        }
+        var msg = ts.join("|");
+      }
 
       function imgOmd(e) {
-        send("MD", e.clientX, e.clientY);
+        sendMouse("MD", e.offsetX, e.offsetY);
+      }
+
+      function imgOts(e) {
+        sendTouch("TS", e.targetTouches);
       }
 
       function toggle() {
@@ -130,7 +148,7 @@
   </head>
   <body style="text-align: center; background-color: #222; margin: 0">
     <div style="position: absolute; color: white; text-align: left; font-family: monospace">
-      Version: 0.7
+      Version: 0.8
       <div id="debug">
       </div>
       <div id="toggle"
@@ -141,8 +159,9 @@
     </div>
     <img id="frame" height="100%"
          src="https://s3-us-west-1.amazonaws.com/simplecast/nautilus.jpg"
-         onload="imgLoaded"
-         onmousedown="imgOmd">
+         onload="imgLoaded()"
+         onmousedown="imgOmd(event)"
+         ontouchstart="imgOts(event)">
     <img id="prev" height="100%"
          src="https://s3-us-west-1.amazonaws.com/simplecast/previous.jpg">
     <script type="text/javascript">
