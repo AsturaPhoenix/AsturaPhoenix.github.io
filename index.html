@@ -3,13 +3,17 @@
     <title>Nautilus</title>
     <script src="https://sdk.amazonaws.com/js/aws-sdk-2.2.30.min.js"></script>
     <script type="text/javascript">
-      AWS.config.update({
-        accessKeyId: "AKIAILL2PDRJCSEVOZ6A",
-        secretAccessKey: "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"});
-      AWS.config.region = "us-west-2";
-      var sns = new AWS.SNS({params: {
-        TopicArn: "arn:aws:sns:us-west-2:014890975119:sce"
-      }});
+      try {
+        AWS.config.update({
+          accessKeyId: "AKIAILL2PDRJCSEVOZ6A",
+          secretAccessKey: "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"});
+        AWS.config.region = "us-west-2";
+        var sns = new AWS.SNS({params: {
+          TopicArn: "arn:aws:sns:us-west-2:014890975119:sce"
+        }});
+      } catch (e) {
+        alert(e);
+      }
 
       var isStopped = false;
       var lastReload = new Date();
@@ -148,7 +152,7 @@
   </head>
   <body style="text-align: center; background-color: #222; margin: 0">
     <div style="position: absolute; color: white; text-align: left; font-family: monospace">
-      Version: 0.8
+      Version: 0.9
       <div id="debug">
       </div>
       <div id="toggle"
