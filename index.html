@@ -1,20 +1,42 @@
 <html>
   <head>
     <title>Nautilus</title>
+    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.2.30.min.js"></script>
     <script type="text/javascript">
+      AWS.config.update({
+        accessKeyId: "AKIAILL2PDRJCSEVOZ6A",
+        secretAccessKey: "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"});
+      AWS.config.region = "us-west-2";
+      var sns = new AWS.SNS({params: {
+        TopicArn: "arn:aws:sns:us-west-2:014890975119:sce"
+      }});
+
       var isStopped = false;
       var lastReload = new Date();
-      var lastAnim = new Date();
+      var lastProc = new Date();
+      var lastFrameQuery = new Date();
       var lastFrame = new Date();
-      var lastLoaded = new Date();
       var lastScreenQuery = new Date();
       var lastScreen = new Date();
 
       function debugInfo() {
         var debug = document.getElementById("debug");
-        debug.innerText = "Last reload: " + lastReload.toLocaleTimeString() +
-          "\nLast frame: " + lastAnim.toLocaleTimeString() +
-          "\nLast render: " + lastLoaded.toLocaleTimeString() +
+        var staleness = lastProc.getTime() - lastFrame.getTime();
+        var dispColor;
+        if (staleness > 7500) {
+          dispColor = "yellow";
+        } else if (staleness > 15000 {
+          dispColor = "red";
+        }
+        
+        var frameDisp = lastFrame.toLocaleTimeString();
+        if (dispColor) {
+          frameDisp = '<span style="color: ' + dispColor + '\">' + frameDisp + "</span>";
+        }
+        
+        debug.innerHTML = "Last reload: " + lastReload.toLocaleTimeString() +
+          "\nLast tick: " + lastProc.toLocaleTimeString() +
+          "\nLast frame: " + frameDisp +
           "\nLast screen: " + lastScreen.toLocaleTimeString();
       }
 
@@ -24,40 +46,44 @@
         }
       }
 
-      function anim() {
-	if (lastAnim.getTime() - lastLoaded.getTime() > 20000) {
+      function proclp() {
+        if (lastProc.getTime() - lastFrame.getTime() > 20000) {
           location.reload();
         }
 
-        lastAnim = new Date();
+        lastProc = new Date();
 
-        if (lastAnim.getTime() - lastFrame.getTime() > 10000) {
+        if (lastProc.getTime() - lastFrameQuery.getTime() > 10000) {
           frame();
         }
 
-        if (lastAnim.getTime() - lastScreenQuery.getTime() > 10000) {
+        if (lastProc.getTime() - lastScreenQuery.getTime() > 10000) {
           screen();
         }
 
         debugInfo();
 
-        queue(anim);
+        queue(proclp);
       }
 
       function frame() {
-        lastFrame = lastAnim;
-        document.getElementById("frame").src = 'https://s3-us-west-1.amazonaws.com/simplecast/nautilus.jpg?v=' + lastAnim.getTime();
+        lastFrameQuery = lastProc;
+        document.getElementById("frame").src =
+          'https://s3-us-west-1.amazonaws.com/simplecast/nautilus.jpg?v=' +
+          lastProc.getTime();
       }
 
       function screen() {
-        lastScreenQuery = lastAnim;
+        lastScreenQuery = lastProc;
         var ph = new XMLHttpRequest();
         ph.open("HEAD", "https://s3-us-west-1.amazonaws.com/simplecast/previous.jpg");
         ph.onreadystatechange = function() {
           if (ph.readyState == 4) {
             var newScreen = new Date(ph.getResponseHeader("Last-Modified"));
             if (newScreen.getTime() > lastScreen.getTime()) {
-              document.getElementById("prev").src = 'https://s3-us-west-1.amazonaws.com/simplecast/previous.jpg?v=' + lastAnim.getTime();
+              document.getElementById("prev").src =
+                'https://s3-us-west-1.amazonaws.com/simplecast/previous.jpg?v=' +
+                lastProc.getTime();
               lastScreen = newScreen;
 
             }
@@ -68,9 +94,25 @@
       }
 
       function imgLoaded() {
-        lastLoaded = new Date();
+        lastFrame = new Date();
         debugInfo();
         queue(frame);
+      }
+      
+      function send(type, cpx, cpy) {
+        var img = document.getElementById("frame");
+        var nx = cpx / img.width,
+            ny = cpy / img.height;
+        var msg = [type, nx, ny].join("|");
+        sns.publish({Message: msg}, function (err, data) {
+          if (err) {
+            console.error(err);
+          }
+        });
+      }
+
+      function imgOmd(e) {
+        send("MD", e.clientX, e.clientY);
       }
 
       function toggle() {
@@ -78,7 +120,7 @@
         if (isStopped) {
           bn.innerText = "Stop";
           isStopped = false;
-          anim();
+          proclp();
         } else {
           bn.innerText = "Resume";
           isStopped = true;
@@ -88,20 +130,23 @@
   </head>
   <body style="text-align: center; background-color: #222; margin: 0">
     <div style="position: absolute; color: white; text-align: left; font-family: monospace">
-      Version: 0.6
+      Version: 0.7
       <div id="debug">
       </div>
-      <div id="toggle" style="background-color: #555; margin: 4px; padding: 12px; text-align: center; cursor: pointer" onclick="toggle()">
+      <div id="toggle"
+          style="background-color: #555; margin: 4px; padding: 12px; text-align: center; cursor: pointer"
+          onclick="toggle()">
         Stop
       </div>
     </div>
     <img id="frame" height="100%"
          src="https://s3-us-west-1.amazonaws.com/simplecast/nautilus.jpg"
-         onload="imgLoaded()">
+         onload="imgLoaded"
+         onmousedown="imgOmd">
     <img id="prev" height="100%"
          src="https://s3-us-west-1.amazonaws.com/simplecast/previous.jpg">
     <script type="text/javascript">
-      anim();
+      proclp();
     </script>
   </body>
 </html>
