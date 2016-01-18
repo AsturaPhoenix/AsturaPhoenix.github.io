@@ -60,8 +60,8 @@
               document.getElementById("prev").src = 'https://s3-us-west-1.amazonaws.com/simplecast/previous.jpg?v=' + lastAnim.getTime();
               lastScreen = newScreen;
 
-              queue(screen);
             }
+            queue(screen);
           }
         };
         ph.send();
@@ -88,7 +88,7 @@
   </head>
   <body style="text-align: center; background-color: #222; margin: 0">
     <div style="position: absolute; color: white; text-align: left; font-family: monospace">
-      Version: 0.5
+      Version: 0.6
       <div id="debug">
       </div>
       <div id="toggle" style="background-color: #555; margin: 4px; padding: 12px; text-align: center; cursor: pointer" onclick="toggle()">
