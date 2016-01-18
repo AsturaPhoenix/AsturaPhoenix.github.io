@@ -5,7 +5,9 @@
       var isStopped = false;
       var lastReload = new Date();
       var lastAnim = new Date();
+      var lastFrame = new Date();
       var lastLoaded = new Date();
+      var lastScreenQuery = new Date();
       var lastScreen = new Date();
 
       function debugInfo() {
@@ -16,39 +18,59 @@
           "\nLast screen: " + lastScreen.toLocaleTimeString();
       }
 
+      function queue(f) {
+        if (!isStopped) {
+          setTimeout(f, 1000);
+        }
+      }
+
       function anim() {
 	if (lastAnim.getTime() - lastLoaded.getTime() > 20000) {
           location.reload();
         }
 
         lastAnim = new Date();
-        var cb = lastAnim.getTime();
 
-        document.getElementById("frame").src = 'https://s3-us-west-1.amazonaws.com/simplecast/nautilus.jpg?v=' + cb;
+        if (lastAnim.getTime() - lastFrame.getTime() > 10000) {
+          frame();
+        }
 
+        if (lastAnim.getTime() - lastScreenQuery.getTime() > 10000) {
+          screen();
+        }
+
+        debugInfo();
+
+        queue(anim);
+      }
+
+      function frame() {
+        lastFrame = lastAnim;
+        document.getElementById("frame").src = 'https://s3-us-west-1.amazonaws.com/simplecast/nautilus.jpg?v=' + lastAnim.getTime();
+      }
+
+      function screen() {
+        lastScreenQuery = lastAnim;
         var ph = new XMLHttpRequest();
         ph.open("HEAD", "https://s3-us-west-1.amazonaws.com/simplecast/previous.jpg");
-        ph.onreadystatechanged = function() {
+        ph.onreadystatechange = function() {
           if (ph.readyState == 4) {
             var newScreen = new Date(ph.getResponseHeader("Last-Modified"));
             if (newScreen.getTime() > lastScreen.getTime()) {
-              document.getElementById("prev").src = 'https://s3-us-west-1.amazonaws.com/simplecast/previous.jpg?v=' + cb;
+              document.getElementById("prev").src = 'https://s3-us-west-1.amazonaws.com/simplecast/previous.jpg?v=' + lastAnim.getTime();
               lastScreen = newScreen;
+
+              queue(screen);
             }
           }
         };
         ph.send();
-
-        debugInfo();
-
-        if (!isStopped) {
-          setTimeout(anim, 1000);
-        }
       }
 
       function imgLoaded() {
         lastLoaded = new Date();
         debugInfo();
+        queue(frame);
       }
 
       function toggle() {
