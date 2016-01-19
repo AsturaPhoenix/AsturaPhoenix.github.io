@@ -8,7 +8,7 @@
         lastError = message + "\n" + url + ":" + lineNumber;
       }; 
     </script>
-    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.2.30.min.js"></script>
+    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.2.30.js"></script>
     <script type="text/javascript">
       var sns;
       
@@ -26,7 +26,7 @@
         }
       }
       
-      setTimeout(creds, 5000);
+      setTimeout(creds, 10000);
 
       var isStopped = false;
       var lastReload = new Date();
@@ -172,9 +172,9 @@
       }
     </script>
   </head>
-  <body style="text-align: center; background-color: #222; margin: 0">
-    <div style="position: absolute; color: white; text-align: left; font-family: monospace; max-width: 16em">
-      Version: 0.13
+  <body style="text-align: center; background-color: #111; margin: 0">
+    <div style="position: absolute; color: white; text-align: left; font-family: monospace; max-width: 15em">
+      Version: 0.14
       <div id="debug">
       </div>
       <div id="toggle"
