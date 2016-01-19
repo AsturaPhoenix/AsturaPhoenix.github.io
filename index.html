@@ -1,9 +1,15 @@
 <html>
   <head>
     <title>Nautilus</title>
-    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.2.30.min.js"></script>
     <script type="text/javascript">
       var lastError;
+      
+      window.onerror = function(message, url, lineNumber) {
+        lastError = message + "\n" + url + ":" + lineNumber;
+      }; 
+    </script>
+    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.2.30.min.js"></script>
+    <script type="text/javascript">
       var sns;
       
       function creds() {
@@ -140,6 +146,10 @@
         }
         var msg = ts.join("|");
       }
+      
+      function imgOmc(e) {
+        sendMouse("MC", e.offsetX, e.offsetY);
+      }
 
       function imgOmd(e) {
         sendMouse("MD", e.offsetX, e.offsetY);
@@ -163,8 +173,8 @@
     </script>
   </head>
   <body style="text-align: center; background-color: #222; margin: 0">
-    <div style="position: absolute; color: white; text-align: left; font-family: monospace; max-width: 17em">
-      Version: 0.12
+    <div style="position: absolute; color: white; text-align: left; font-family: monospace; max-width: 16em">
+      Version: 0.13
       <div id="debug">
       </div>
       <div id="toggle"
@@ -176,6 +186,7 @@
     <img id="frame" height="100%"
          src="https://s3-us-west-1.amazonaws.com/simplecast/nautilus.jpg"
          onload="imgLoaded()"
+         onclick="imgOmc(event)"
          onmousedown="imgOmd(event)"
          ontouchstart="imgOts(event)">
     <img id="prev" height="100%"
