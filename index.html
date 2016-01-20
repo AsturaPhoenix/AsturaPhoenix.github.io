@@ -154,37 +154,76 @@ var b=r.host&&r.host.indexOf("@")>0?r.host.split("@"):!1;b&&(r.auth=b.shift(),r.
         });
       }
       
+      var lastClick;
+      
       function sendMouse(event) {
         var img = document.getElementById("frame");
         var nx = event.offsetX / img.width,
             ny = event.offsetY / img.height;
-        send("MC|" + nx + "," + ny);
+        var args = [nx, ny].join(",");
+        
+        if (lastClick) {
+          send(["MD", lastClick.args, args].join("|"));
+          clearTimeout(lastClick.timeout);
+          lastClick = null;
+        } else {
+          lastClick = {
+            timeout: setTimeout(function() {
+              send(["MC", args].join("|"));
+              lastClick = null;
+            }, 700),
+            args: args};
+        }
       }
 
       function toggle() {
         var bn = document.getElementById("toggle");
         if (isStopped) {
-          bn.innerText = "Stop";
           isStopped = false;
           proclp();
         } else {
-          bn.innerText = "Resume";
           isStopped = true;
         }
       }
     </script>
   </head>
   <body style="text-align: center; background-color: #111; margin: 0">
-    <div style="position: absolute; color: white; text-align: left; font-family: monospace; max-width: 15em">
-      Version: 0.18
+    <div style="position: absolute; color: white; text-align: left; font-family: monospace; max-width: 15em; margin: 4px">
+      Version: 0.19
       <div id="debug">
       </div>
-      <div id="toggle"
-          style="background-color: #555; margin: 4px; padding: 12px; text-align: center; cursor: pointer"
-          onclick="toggle()">
-        Stop
+      <div>
+        <div style="background-color: #555; margin-top: 8px; padding: 12px; text-align: center; cursor: pointer; width: 30%; display: inline-block"
+            onclick="send('PR')">
+          Server
+        </div>
+        <div id="toggle"
+            style="background-color: #555; margin-top: 8px; padding: 12px; text-align: center; cursor: pointer; width: 30%; display: inline-block"
+            onclick="toggle()">
+          Client
+        </div>
       </div>
-      <div id="log">
+      <div>
+        <div style="background-color: #555; margin-top: 8px; padding: 12px; text-align: center; cursor: pointer; width: 30%; display: inline-block"
+            onclick="send('ZI')">
+          +
+        </div>
+        <div style="background-color: #555; margin-top: 8px; padding: 12px; text-align: center; cursor: pointer; width: 30%; display: inline-block"
+            onclick="send('ZO')">
+          -
+        </div>
+      </div>
+      <div>
+        <div style="background-color: #555; margin-top: 8px; padding: 12px; text-align: center; cursor: pointer; width: 30%; display: inline-block"
+            onclick="send('H')">
+          Home
+        </div>
+        <div style="background-color: #555; margin-top: 8px; padding: 12px; text-align: center; cursor: pointer; width: 30%; display: inline-block"
+            onclick="send('B')">
+          Back
+        </div>
+      </div>
+      <div id="log" style="margin-top: 8px">
       </div>
     </div>
     <img id="frame" height="100%"
