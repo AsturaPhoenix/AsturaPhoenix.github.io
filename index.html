@@ -196,35 +196,34 @@ var b=r.host&&r.host.indexOf("@")>0?r.host.split("@"):!1;b&&(r.auth=b.shift(),r.
         debugEvent("WS");
       };
     </script>
+    <link rel="stylesheet" href="style.css">
   </head>
-  <body style="text-align: center; background-color: #111; margin: 0">
-    <div style="position: absolute; color: white; text-align: left; font-family: monospace; max-width: 15em; margin: 4px">
-      Version: 0.21
+  <body>
+    <div class="controls">
+      Version: 0.22
       <div id="debug">
       </div>
-      <table style="text-align: center; cursor: pointer; margin-top: 8px; color: white; width: 100%">
+      <table class="buttons">
         <tr>
-          <td id="toggle" colspan="6" onclick="toggle()" style="padding: 12px; background-color: #555">Stop</td>
+          <td id="toggle" colspan="6" onclick="toggle()">Stop</td>
         <tr>
-          <td colspan="3" onclick="send('ZI')" style="padding: 12px; background-color: #555">+</td>
-          <td colspan="3" onclick="send('ZO')" style="padding: 12px; background-color: #555">-</td>
+          <td colspan="3" onclick="send('ZI')">+</td>
+          <td colspan="3" onclick="send('ZO')">-</td>
         <tr>
-          <td colspan="2" onclick="send('R')" style="padding: 12px; background-color: #555">[][]</td>
-          <td colspan="2" onclick="send('H')" style="padding: 12px; background-color: #555">Home</td>
-          <td colspan="2" onclick="send('B')" style="padding: 12px; background-color: #555">Back</td>
+          <td colspan="2" onclick="send('R')">[][]</td>
+          <td colspan="2" onclick="send('H')">Home</td>
+          <td colspan="2" onclick="send('B')">Back</td>
       </table>
-      <div id="log" style="margin-top: 8px">
+      <div id="log">
       </div>
     </div>
-    <img id="frame" height="100%"
-         src="https://s3-us-west-1.amazonaws.com/simplecast/nautilus.jpg"
+    <img id="frame" src="https://s3-us-west-1.amazonaws.com/simplecast/nautilus.jpg"
          draggable="false"
          onload="imgLoaded()"
          onclick="sendMouse(event)"
          ondrag="debugEvent('MD')"
          onmousemove="debugEvent('MM')">
-    <img id="prev" height="100%"
-         src="https://s3-us-west-1.amazonaws.com/simplecast/previous.jpg">
+    <img id="prev" src="https://s3-us-west-1.amazonaws.com/simplecast/previous.jpg">
     <script type="text/javascript">
       proclp();
     </script>

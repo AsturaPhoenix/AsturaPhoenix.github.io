@@ -1,0 +1,32 @@
+body {
+  text-align: center;
+  background-color: #111;
+  margin: 0;
+}
+
+.controls {
+  position: absolute;
+  color: white;
+  text-align: left;
+  font-family: monospace;
+  max-width: 15em;
+  margin: 4px;
+}
+
+.buttons {
+  text-align: center;
+  cursor: pointer;
+  margin: 8px 0;
+  color: white;
+  width: 100%;
+}
+
+.buttons td {
+  padding: 16px 12px;
+  background-color: #555;
+  border-radius: 3px;
+}
+
+img {
+  height: 100%;
+}
