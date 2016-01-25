@@ -175,6 +175,10 @@ var b=r.host&&r.host.indexOf("@")>0?r.host.split("@"):!1;b&&(r.auth=b.shift(),r.
             args: args};
         }
       }
+      
+      function debugEvent(desc) {
+        log = desc;
+      }
 
       function toggle() {
         var bn = document.getElementById("toggle");
@@ -187,47 +191,38 @@ var b=r.host&&r.host.indexOf("@")>0?r.host.split("@"):!1;b&&(r.auth=b.shift(),r.
           isStopped = true;
         }
       }
+      
+      window.onscroll = function() {
+        debugEvent("WS");
+      };
     </script>
   </head>
   <body style="text-align: center; background-color: #111; margin: 0">
     <div style="position: absolute; color: white; text-align: left; font-family: monospace; max-width: 15em; margin: 4px">
-      Version: 0.20
+      Version: 0.21
       <div id="debug">
       </div>
-      <div id="toggle"
-          style="background-color: #555; margin-top: 8px; padding: 12px; text-align: center; cursor: pointer; width: 100%; display: inline-block"
-          onclick="toggle()">
-        Stop
-      </div>
-      <div style="text-align: center; width: 100%">
-        <div>
-          <div style="background-color: #555; margin-top: 8px; padding: 12px; cursor: pointer; width: 30%; display: inline-block"
-              onclick="send('ZI')">
-            +
-          </div>
-          <div style="background-color: #555; margin-top: 8px; padding: 12px; cursor: pointer; width: 30%; display: inline-block"
-              onclick="send('ZO')">
-            -
-          </div>
-        </div>
-        <div>
-          <div style="background-color: #555; margin-top: 8px; padding: 12px; cursor: pointer; width: 30%; display: inline-block"
-              onclick="send('H')">
-            Home
-          </div>
-          <div style="background-color: #555; margin-top: 8px; padding: 12px; cursor: pointer; width: 30%; display: inline-block"
-              onclick="send('B')">
-            Back
-          </div>
-        </div>
-      </div>
+      <table style="text-align: center; cursor: pointer; margin-top: 8px; color: white; width: 100%">
+        <tr>
+          <td id="toggle" colspan="6" onclick="toggle()" style="padding: 12px; background-color: #555">Stop</td>
+        <tr>
+          <td colspan="3" onclick="send('ZI')" style="padding: 12px; background-color: #555">+</td>
+          <td colspan="3" onclick="send('ZO')" style="padding: 12px; background-color: #555">-</td>
+        <tr>
+          <td colspan="2" onclick="send('R')" style="padding: 12px; background-color: #555">[][]</td>
+          <td colspan="2" onclick="send('H')" style="padding: 12px; background-color: #555">Home</td>
+          <td colspan="2" onclick="send('B')" style="padding: 12px; background-color: #555">Back</td>
+      </table>
       <div id="log" style="margin-top: 8px">
       </div>
     </div>
     <img id="frame" height="100%"
          src="https://s3-us-west-1.amazonaws.com/simplecast/nautilus.jpg"
+         draggable="false"
          onload="imgLoaded()"
-         onclick="sendMouse(event)">
+         onclick="sendMouse(event)"
+         ondrag="debugEvent('MD')"
+         onmousemove="debugEvent('MM')">
     <img id="prev" height="100%"
          src="https://s3-us-west-1.amazonaws.com/simplecast/previous.jpg">
     <script type="text/javascript">
