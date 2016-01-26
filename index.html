@@ -183,11 +183,11 @@ var b=r.host&&r.host.indexOf("@")>0?r.host.split("@"):!1;b&&(r.auth=b.shift(),r.
       function toggle() {
         var bn = document.getElementById("toggle");
         if (isStopped) {
-          bn.innerText = "stop"
+          bn.innerText = "\ue047"
           isStopped = false;
           proclp();
         } else {
-          bn.innerText = "play_arrow"
+          bn.innerText = "\ue037"
           isStopped = true;
         }
       }
@@ -201,19 +201,19 @@ var b=r.host&&r.host.indexOf("@")>0?r.host.split("@"):!1;b&&(r.auth=b.shift(),r.
   </head>
   <body>
     <div class="controls">
-      Version: 0.23
+      Version: 0.24
       <div id="debug">
       </div>
       <table class="buttons">
         <tr>
-          <td class="material-icons" id="toggle" colspan="6" onclick="toggle()">stop</td>
+          <td class="material-icons" id="toggle" colspan="6" onclick="toggle()">&#xe047;</td>
         <tr>
-          <td class="material-icons" colspan="3" onclick="send('ZI')">zoom_in</td>
-          <td class="material-icons" colspan="3" onclick="send('ZO')">zoom_out</td>
+          <td class="material-icons" colspan="3" onclick="send('ZI')">&#xe8ff;</td>
+          <td class="material-icons" colspan="3" onclick="send('ZO')">&#xe900;</td>
         <tr>
-          <td class="material-icons" colspan="2" onclick="send('R')">launch</td>
-          <td class="material-icons" colspan="2" onclick="send('H')">home</td>
-          <td class="material-icons" colspan="2" onclick="send('B')">arrow_back</td>
+          <td class="material-icons" colspan="2" onclick="send('R')">&#xe895;</td>
+          <td class="material-icons" colspan="2" onclick="send('H')">&#xe88a;</td>
+          <td class="material-icons" colspan="2" onclick="send('B')">&#xe5c4;</td>
       </table>
       <div id="log">
       </div>
