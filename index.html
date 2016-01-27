@@ -197,12 +197,10 @@ var b=r.host&&r.host.indexOf("@")>0?r.host.split("@"):!1;b&&(r.auth=b.shift(),r.
       };
     </script>
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link rel="stylesheet" href="https://raw.githubusercontent.com/google/material-design-icons/master/sprites/css-sprite/sprite-av-white.css">
   </head>
   <body>
     <div class="controls">
-      Version: 0.28
+      Version: 0.29
       <div id="debug">
       </div>
       <table class="buttons">
@@ -212,9 +210,9 @@ var b=r.host&&r.host.indexOf("@")>0?r.host.split("@"):!1;b&&(r.auth=b.shift(),r.
           <td class="zoom-in" colspan="3" onclick="send('ZI')"></td>
           <td class="zoom-out" colspan="3" onclick="send('ZO')"></td>
         <tr>
-          <td class="material-icons" colspan="2" onclick="send('R')">&#xe895;</td>
-          <td class="material-icons" colspan="2" onclick="send('H')">&#xe88a;</td>
-          <td class="material-icons" colspan="2" onclick="send('B')">&#xe5c4;</td>
+          <td class="recent" colspan="2" onclick="send('R')"></td>
+          <td class="home" colspan="2" onclick="send('H')"></td>
+          <td class="back" colspan="2" onclick="send('B')"></td>
       </table>
       <div id="log">
       </div>

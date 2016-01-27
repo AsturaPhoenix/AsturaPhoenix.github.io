@@ -48,3 +48,15 @@ img {
 .zoom-out {
   background-image: url(https://raw.githubusercontent.com/google/material-design-icons/master/action/1x_web/ic_zoom_out_white_24dp.png)
 }
+
+.recent {
+  background-image: url(https://raw.githubusercontent.com/google/material-design-icons/master/action/1x_web/ic_launch_white_24dp.png)
+}
+
+.home {
+  background-image: url(https://raw.githubusercontent.com/google/material-design-icons/master/action/1x_web/ic_home_white_24dp.png)
+}
+
+.back {
+  background-image: url(https://raw.githubusercontent.com/google/material-design-icons/master/navigation/1x_web/ic_arrow_back_white_24dp.png)
+}
