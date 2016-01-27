@@ -181,13 +181,13 @@ var b=r.host&&r.host.indexOf("@")>0?r.host.split("@"):!1;b&&(r.auth=b.shift(),r.
       }
 
       function toggle() {
-        var bn = document.getElementById("toggle");
+        var bn = document.getElementById("togglebn");
         if (isStopped) {
-          bn.className = "stop";
+          bn.src = "https://raw.githubusercontent.com/google/material-design-icons/master/av/1x_web/ic_stop_white_24dp.png";
           isStopped = false;
           proclp();
         } else {
-          bn.className = "start";
+          bn.src = "https://raw.githubusercontent.com/google/material-design-icons/master/av/1x_web/ic_play_arrow_white_24dp.png";
           isStopped = true;
         }
       }
@@ -200,30 +200,42 @@ var b=r.host&&r.host.indexOf("@")>0?r.host.split("@"):!1;b&&(r.auth=b.shift(),r.
   </head>
   <body>
     <div class="controls">
-      Version: 0.29
+      Version: 0.30
       <div id="debug">
       </div>
       <table class="buttons">
         <tr>
-          <td class="stop" id="toggle" colspan="6" onclick="toggle()"></td>
+          <td colspan="6" onclick="toggle()">
+            <img id="togglebn" src="https://raw.githubusercontent.com/google/material-design-icons/master/av/1x_web/ic_stop_white_24dp.png">
+          </td>
         <tr>
-          <td class="zoom-in" colspan="3" onclick="send('ZI')"></td>
-          <td class="zoom-out" colspan="3" onclick="send('ZO')"></td>
+          <td colspan="3" onclick="send('ZI')">
+            <img src="https://raw.githubusercontent.com/google/material-design-icons/master/action/1x_web/ic_zoom_in_white_24dp.png">
+          </td>
+          <td colspan="3" onclick="send('ZO')">
+            <img src="https://raw.githubusercontent.com/google/material-design-icons/master/action/1x_web/ic_zoom_out_white_24dp.png">
+          </td>
         <tr>
-          <td class="recent" colspan="2" onclick="send('R')"></td>
-          <td class="home" colspan="2" onclick="send('H')"></td>
-          <td class="back" colspan="2" onclick="send('B')"></td>
+          <td colspan="2" onclick="send('R')">
+            <img src="https://raw.githubusercontent.com/google/material-design-icons/master/action/1x_web/ic_launch_white_24dp.png">
+          </td>
+          <td class="home" colspan="2" onclick="send('H')">
+            <img src="https://raw.githubusercontent.com/google/material-design-icons/master/action/1x_web/ic_home_white_24dp.png">
+          </td>
+          <td class="back" colspan="2" onclick="send('B')">
+            <img src="https://raw.githubusercontent.com/google/material-design-icons/master/navigation/1x_web/ic_arrow_back_white_24dp.png">
+          </td>
       </table>
       <div id="log">
       </div>
     </div>
-    <img id="frame" src="https://s3-us-west-1.amazonaws.com/simplecast/nautilus.jpg"
+    <img class="canvas" id="frame" src="https://s3-us-west-1.amazonaws.com/simplecast/nautilus.jpg"
          draggable="false"
          onload="imgLoaded()"
          onclick="sendMouse(event)"
          ondrag="debugEvent('MD')"
          onmousemove="debugEvent('MM')">
-    <img id="prev" src="https://s3-us-west-1.amazonaws.com/simplecast/previous.jpg">
+    <img class="canvas" id="prev" src="https://s3-us-west-1.amazonaws.com/simplecast/previous.jpg">
     <script type="text/javascript">
       proclp();
     </script>
