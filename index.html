@@ -202,15 +202,15 @@ var b=r.host&&r.host.indexOf("@")>0?r.host.split("@"):!1;b&&(r.auth=b.shift(),r.
   </head>
   <body>
     <div class="controls">
-      Version: 0.27
+      Version: 0.28
       <div id="debug">
       </div>
       <table class="buttons">
         <tr>
           <td class="stop" id="toggle" colspan="6" onclick="toggle()"></td>
         <tr>
-          <td class="material-icons" colspan="3" onclick="send('ZI')">&#xe8ff;</td>
-          <td class="material-icons" colspan="3" onclick="send('ZO')">&#xe900;</td>
+          <td class="zoom-in" colspan="3" onclick="send('ZI')"></td>
+          <td class="zoom-out" colspan="3" onclick="send('ZO')"></td>
         <tr>
           <td class="material-icons" colspan="2" onclick="send('R')">&#xe895;</td>
           <td class="material-icons" colspan="2" onclick="send('H')">&#xe88a;</td>

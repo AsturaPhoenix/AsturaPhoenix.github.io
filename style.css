@@ -40,3 +40,11 @@ img {
 .stop {
   background-image: url(https://raw.githubusercontent.com/google/material-design-icons/master/av/1x_web/ic_stop_white_24dp.png)
 }
+
+.zoom-in {
+  background-image: url(https://raw.githubusercontent.com/google/material-design-icons/master/action/1x_web/ic_zoom_in_white_24dp.png)
+}
+
+.zoom-out {
+  background-image: url(https://raw.githubusercontent.com/google/material-design-icons/master/action/1x_web/ic_zoom_out_white_24dp.png)
+}
