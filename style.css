@@ -7,7 +7,7 @@ body {
 .controls {
   position: absolute;
   color: white;
-  text-align: left;
+  text-align: center;
   font-family: monospace;
   max-width: 15em;
   margin: 4px;
@@ -29,4 +29,23 @@ body {
 
 .canvas {
   height: 100%;
+}
+
+.status {
+  height: 32px;
+  width: 32px;
+  border-radius: 16px;
+  display: inline-block;
+}
+
+.status img {
+  margin-top: 4px;
+}
+
+.status.warning {
+  background-color: #aa3;
+}
+
+.status.stale {
+  background-color: #f66;
 }

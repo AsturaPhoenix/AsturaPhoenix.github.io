@@ -60,31 +60,23 @@ var b=r.host&&r.host.indexOf("@")>0?r.host.split("@"):!1;b&&(r.auth=b.shift(),r.
 
       function debugInfo() {
         var debug = document.getElementById("debug");
+        var status = document.getElementById("status");
+        
         var staleness = lastProc.getTime() - lastFrame.getTime();
-        var dispColor;
         if (staleness > 15000) {
-          dispColor = "#f66";
+          status.className = "status stale";
         } else if (staleness > 7500) {
-          dispColor = "#dd4";
+          status.className = "status warning";
+        } else {
+          status.className = "status ok";
         }
         
-        var frameDisp = lastFrame.toLocaleTimeString();
-        if (dispColor) {
-          frameDisp = '<span style="color: ' + dispColor + '\">' + frameDisp + "</span>";
-        }
-        
-        var debugInfo = "Last reload: " + lastReload.toLocaleTimeString() +
-          "<br>Last tick: " + lastProc.toLocaleTimeString() +
-          "<br>Last frame: " + frameDisp +
-          "<br>Last screen: " + lastScreen.toLocaleTimeString();
         if (lastError) {
-          debugInfo += "<br>" + lastError;
+          debug.innerText = lastError;
         }
         if (log) {
           document.getElementById("log").innerText = log;
         }
-          
-        debug.innerHTML = debugInfo;
       }
 
       function queue(f) {
@@ -175,10 +167,6 @@ var b=r.host&&r.host.indexOf("@")>0?r.host.split("@"):!1;b&&(r.auth=b.shift(),r.
             args: args};
         }
       }
-      
-      function debugEvent(desc) {
-        log = desc;
-      }
 
       function toggle() {
         var bn = document.getElementById("togglebn");
@@ -191,22 +179,19 @@ var b=r.host&&r.host.indexOf("@")>0?r.host.split("@"):!1;b&&(r.auth=b.shift(),r.
           isStopped = true;
         }
       }
-      
-      window.onscroll = function() {
-        debugEvent("WS");
-      };
     </script>
     <link rel="stylesheet" href="style.css">
   </head>
   <body>
     <div class="controls">
-      Version: 0.30
       <div id="debug">
-      </div>
+      </debug>
       <table class="buttons">
         <tr>
           <td colspan="6" onclick="toggle()">
-            <img id="togglebn" src="https://raw.githubusercontent.com/google/material-design-icons/master/av/1x_web/ic_stop_white_24dp.png">
+	    <div id="status" class="status">
+              <img id="togglebn" src="https://raw.githubusercontent.com/google/material-design-icons/master/av/1x_web/ic_stop_white_24dp.png">
+	    </div>
           </td>
         <tr>
           <td colspan="3" onclick="send('ZI')">
@@ -232,9 +217,7 @@ var b=r.host&&r.host.indexOf("@")>0?r.host.split("@"):!1;b&&(r.auth=b.shift(),r.
     <img class="canvas" id="frame" src="https://s3-us-west-1.amazonaws.com/simplecast/nautilus.jpg"
          draggable="false"
          onload="imgLoaded()"
-         onclick="sendMouse(event)"
-         ondrag="debugEvent('MD')"
-         onmousemove="debugEvent('MM')">
+         onclick="sendMouse(event)">
     <img class="canvas" id="prev" src="https://s3-us-west-1.amazonaws.com/simplecast/previous.jpg">
     <script type="text/javascript">
       proclp();
