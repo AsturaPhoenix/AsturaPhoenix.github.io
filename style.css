@@ -17,10 +17,11 @@
 
 .embed-container {
   position: relative;
-  padding-bottom: 56.25%;
-  height: 0;
+  height: 30rem;
   overflow: hidden;
   max-width: 100%;
+  border: 1px solid rgba(0,0,0,.125);
+  border-radius: .25rem;
 }
 
 .embed-container iframe,
